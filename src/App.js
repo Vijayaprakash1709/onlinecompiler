@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Container, Button,Grid, MenuItem, Box, Typography, CircularProgress, Select, InputLabel, FormControl, TextField } from "@mui/material";
 import { Editor } from "@monaco-editor/react";
+import { useTheme, useMediaQuery } from "@mui/material";
 import "./App.css";
 
 const App = () => {
@@ -10,6 +11,8 @@ const App = () => {
   const [userInput, setUserInput] = useState(``);
   const [loading, setLoading] = useState(false);
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const handleEditorChange = (value) => {
     setInput(value);
     localStorage.setItem('input', value);
@@ -52,7 +55,7 @@ const App = () => {
       }
 
       const jsonResponse = await response.json();
-      setOutput(`Results:\n${jsonResponse.output || jsonResponse.error}`);
+      setOutput(`Results : \nTime Taken : ${jsonResponse.cpuTime} , Memory : ${jsonResponse.memory}\nLanguage : ${jsonResponse.language.id}\nOutput : \n\t ${jsonResponse.output || jsonResponse.error}`);
     } catch (error) {
       setOutput(`Error: ${error.message}`);
     } finally {
@@ -165,6 +168,8 @@ const App = () => {
           <Box
             className="editor-container"
             sx={{
+              height: { xs: '60vh', md: '80vh' },
+              width:{xs:'100%'},
               fontSize: '50px',
               fontWeight: 'bold',
             }}
@@ -181,6 +186,8 @@ const App = () => {
                 fontSize: 20,
                 letterSpacing: '1px',
                 fontFamily: 'rockwell, Monaco, monospace',
+                lineNumbers: isMobile ? "on" : "on",
+                lineNumbersMinChars: isMobile ?  2 :  4,
               }}
             />
           </Box>
@@ -239,7 +246,7 @@ const App = () => {
                 // backgroundColor: '#f5f5f5',
                 padding: 2,
                 borderRadius: 1,
-                minHeight: '20vh',
+                minHeight: '35vh',
                 whiteSpace: 'pre-wrap',
                 border: '1px solid #ddd',
                 overflow: 'auto',
