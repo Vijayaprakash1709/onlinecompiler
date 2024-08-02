@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Button, MenuItem, Box, Typography, CircularProgress, Select, InputLabel, FormControl, TextField } from "@mui/material";
+import { Container, Button,Grid, MenuItem, Box, Typography, CircularProgress, Select, InputLabel, FormControl, TextField } from "@mui/material";
 import { Editor } from "@monaco-editor/react";
 import "./App.css";
 
@@ -95,7 +95,7 @@ const App = () => {
         {loading ? <CircularProgress size={24} /> : 'Run Code'}
       </Button>
       </div>
-      <div style={{display:'flex',gap:'10px',width:'100%'}}>
+      {/* <div style={{display:'flex',gap:'10px',width:'100%'}}>
       <Box className="editor-container" style={{ width: '70%',fontSize:'50px',fontWeight:'bold' }}>
         <Editor
           height="80vh"
@@ -158,7 +158,98 @@ const App = () => {
         
       </Box>
       </div>
-      </div>
+      </div> */}
+
+<Grid container spacing={2}>
+        <Grid item xs={12} md={7}>
+          <Box
+            className="editor-container"
+            sx={{
+              fontSize: '50px',
+              fontWeight: 'bold',
+            }}
+          >
+            <Editor
+              height="80vh"
+              defaultLanguage={languageId}
+              value={input}
+              onChange={handleEditorChange}
+              theme="vs-dark"
+              options={{
+                selectOnLineNumbers: true,
+                automaticLayout: true,
+                fontSize: 20,
+                letterSpacing: '1px',
+                fontFamily: 'rockwell, Monaco, monospace',
+              }}
+            />
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={5}>
+          <Box
+            sx={{
+              mt: 2,
+              width: '100%',
+              height: '30vh',
+            }}
+          >
+            <Typography variant="h6" gutterBottom>
+              Enter Your Inputs Here:
+            </Typography>
+            <TextField
+              label="User Input"
+              multiline
+              rows={7}
+              variant="outlined"
+              fullWidth
+              value={userInput}
+              onChange={handleUserInputChange}
+              sx={{
+                backgroundColor: '#f5f5f5',
+                borderRadius: 1,
+                '& .MuiInputLabel-root': { color: '#3f51b5' },
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: '#3f51b5',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: '#3f51b5',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#3f51b5',
+                  },
+                },
+              }}
+            />
+          </Box>
+          <Box
+            sx={{
+              mt: 4,
+              width: '100%',
+            }}
+            className="output-box"
+          >
+            <Typography variant="h6" gutterBottom>
+              Your Output:
+            </Typography>
+            <Box
+              className="output-area"
+              id="output"
+              sx={{
+                // backgroundColor: '#f5f5f5',
+                padding: 2,
+                borderRadius: 1,
+                minHeight: '20vh',
+                whiteSpace: 'pre-wrap',
+                border: '1px solid #ddd',
+                overflow: 'auto',
+              }}
+            >
+              {output}
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
     </Container>
     </div>
   );
